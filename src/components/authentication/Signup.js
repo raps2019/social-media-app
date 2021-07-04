@@ -25,8 +25,8 @@ const Signup = () => {
     try {
       setError('');
       setLoading(true);
-      await signup(email, password, username);
-      history.push('/dashboard');
+      await signup(email, password);
+      history.push('/initialize');
     } catch (error) {
       setError(error.message);
     }
@@ -42,7 +42,7 @@ const Signup = () => {
         disabled={loading}
       >
         <Styled.Heading>FamGram</Styled.Heading>
-        <Styled.FieldContainer>
+        {/* <Styled.FieldContainer>
           <Styled.Input
             type="text"
             formType={'signup'}
@@ -52,7 +52,7 @@ const Signup = () => {
             required
           ></Styled.Input>
           <Styled.Label>Username</Styled.Label>
-        </Styled.FieldContainer>
+        </Styled.FieldContainer> */}
         <Styled.FieldContainer>
           <Styled.Input
             type="email"

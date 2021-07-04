@@ -1,10 +1,17 @@
 import React, {useContext} from 'react';
 import * as Styled from './Navbar.styles';
 import { ThemeContext } from '../../global/ThemeStore';
+import LogoutButton from '../utilities/LogoutButton';
+
+
 
 const Navbar = () => {
 
   const { theme, toggleTheme } = useContext(ThemeContext)
+
+
+
+
 
   return (
     <Styled.NavbarContainer>
@@ -15,7 +22,7 @@ const Navbar = () => {
 
       <Styled.RightContainer>
         <Styled.NavButton onClick={toggleTheme}>{ theme === 'light' ? 'Dark Mode' : 'Light Mode'}</Styled.NavButton>
-        <Styled.NavButton>Logout</Styled.NavButton>
+        <LogoutButton/>
       </Styled.RightContainer>
     </Styled.NavbarContainer>
   );

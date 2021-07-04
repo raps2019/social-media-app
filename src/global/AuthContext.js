@@ -15,12 +15,11 @@ export const AuthProvider = ({children}) => {
   const [ loading, setLoading ] = useState(true)
   const [ currentUser, setCurrentUser ] = useState(null);
 
-  const signup = (email, password, username) => {
-    return auth.createUserWithEmailAndPassword(email,password).then( (result) => {
-      return result.user.updateProfile({
-        displayName: username
-      })
-    })
+  const signup = async (email, password) => {
+    return auth.createUserWithEmailAndPassword(email, password);
+    // return await result.user.updateProfile({
+    //   displayName: username
+    // });
   }
 
   const login = (email, password) => {
@@ -31,11 +30,22 @@ export const AuthProvider = ({children}) => {
     return auth.sendPasswordResetEmail(email)
   }
 
+  const logout = () => {
+    return auth.signOut();
+  }
+
+  const updateUserame = (username) => {
+    return auth.user.displayName(username)
+  }
+
+  
+
   useEffect( () => {
     const unsubscribe = auth.onAuthStateChanged( (user) => {
       setCurrentUser(user)
       setLoading(false);
     })
+    console.log(currentUser)
     return unsubscribe;
   }, [])
 
@@ -44,6 +54,8 @@ export const AuthProvider = ({children}) => {
     signup,
     login,
     resetPassword,
+    logout,
+    updateUserame,
     loading,
   }
 
