@@ -2,99 +2,96 @@ import React, { useState } from 'react';
 import * as Styled from './Authentication.styles';
 import { useAuth } from '../../global/AuthContext';
 import { useHistory } from 'react-router';
+import SignupForm from './SignupForm';
+import EnterHandleForm from './EnterUsernameForm';
 // import { AuthProvider } from '../../contexts/AuthContext';
 
 const Signup = () => {
-  const [username, setUsername] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const [error, setError] = useState('');
+  const [inputValues, setInputValues] = useState({
+    username: '',
+    email: '',
+    password: '',
+    confirmPassword: '',
+  });
+
+  const [mode, setMode] = useState('signupForm');
+  const [errorMessage, setErrorMessage] = useState('');
   const [loading, setLoading] = useState(false);
-  const { signup } = useAuth();
+  const { signup, updateUsername } = useAuth();
   const history = useHistory();
-  //Use this during testing
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (password !== confirmPassword) {
-      return setError('Passwords do not match');
+    if (inputValues.password !== inputValues.confirmPassword) {
+      return setErrorMessage('Passwords do not match');
     }
 
     try {
-      setError('');
+      setErrorMessage('');
       setLoading(true);
-      await signup(email, password);
-      history.push('/initialize');
+      await signup(inputValues.email, inputValues.password);
+      setMode('enterUsernameForm');
     } catch (error) {
-      setError(error.message);
+      setErrorMessage(error.message);
     }
 
     setLoading(false);
   };
 
+  const handleChange = (e) => {
+    const value = e.target.value;
+
+    setInputValues({
+      ...inputValues,
+      [e.target.name]: value,
+    });
+  };
+
+  const handleSubmitUsername = async (e) => {
+    e.preventDefault();
+
+    setLoading(true);
+
+    updateUsername(inputValues.username)
+      .then(() => {
+        history.push('/');
+      })
+      .catch((error) => {
+        setErrorMessage(error.message);
+      })
+      .finally(() => setLoading(false));
+
+    // try {
+    //   // setErrorMessage('');
+    //   setLoading(true);
+    //   await updateUsername(inputValues.username);
+    //   setLoading(false);
+    //   history.push('/');
+    // } catch (error) {
+    //   console.log(error.message);
+    // }
+  };
+
   return (
     <Styled.PageContainer>
-      <Styled.Form
-        formType={'signup'}
-        onSubmit={handleSubmit}
-        disabled={loading}
-      >
-        <Styled.Heading>FamGram</Styled.Heading>
-        {/* <Styled.FieldContainer>
-          <Styled.Input
-            type="text"
-            formType={'signup'}
-            placeholder=" "
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            required
-          ></Styled.Input>
-          <Styled.Label>Username</Styled.Label>
-        </Styled.FieldContainer> */}
-        <Styled.FieldContainer>
-          <Styled.Input
-            type="email"
-            formType={'signup'}
-            placeholder=" "
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          ></Styled.Input>
-          <Styled.Label>Email</Styled.Label>
-        </Styled.FieldContainer>
-        <Styled.FieldContainer>
-          <Styled.Input
-            type="password"
-            formType={'signup'}
-            placeholder=" "
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          ></Styled.Input>
-          <Styled.Label>Password</Styled.Label>
-        </Styled.FieldContainer>
-        <Styled.FieldContainer>
-          <Styled.Input
-            type="password"
-            formType={'signup'}
-            placeholder=" "
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-            required
-          ></Styled.Input>
-          <Styled.Label>Confirm Password</Styled.Label>
-        </Styled.FieldContainer>
-        <Styled.Button type="submit" formType={'signup'}>
-          SIGN UP
-        </Styled.Button>
-        <Styled.Text>
-          Have an account?{' '}
-          <Styled.RouteLink to="/login">Login</Styled.RouteLink>
-        </Styled.Text>
-        {error ? <Styled.ErrorMessage>{error}</Styled.ErrorMessage> : null}
-      </Styled.Form>
+      {mode === 'signupForm' ? (
+        <SignupForm
+          inputValues={inputValues}
+          loading={loading}
+          errorMessage={errorMessage}
+          handleSubmit={handleSubmit}
+          handleChange={handleChange}
+        ></SignupForm>
+      ) : (
+        <EnterHandleForm
+          inputValues={inputValues}
+          errorMessage={errorMessage}
+          handleChange={handleChange}
+          handleSubmitUsername={handleSubmitUsername}
+          loading={loading}
+        ></EnterHandleForm>
+      )}
     </Styled.PageContainer>
   );
 };

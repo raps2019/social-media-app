@@ -6,7 +6,7 @@ import {
   GlobalFormFieldContainer,
   GlobalFormInput,
   GlobalFormLabel,
-} from '../../../global/styles/FormStyles'
+} from '../../../global/styles/GlobalFormStyles'
 
 export const PageContainer = styled.div`
   width: 100%;
