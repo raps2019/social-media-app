@@ -10,8 +10,8 @@ import Login from './components/authentication/Login';
 import Signup from './components/authentication/Signup';
 import ResetPassword from './components/authentication/ResetPassword';
 import Dashboard from './components/pages/Dashboard';
-import ToggleThemeButton from './components//utilities/ToggleThemeButton'
-import Initialize from './components/pages/initialize/Initialize';
+import ToggleThemeButton from './components//utilities/ToggleThemeButton';
+import { AnimatePresence } from 'framer-motion';
 
 const App = () => {
   return (
@@ -23,17 +23,23 @@ const App = () => {
             <Styled.WindowContainer>
               <ToggleThemeButton></ToggleThemeButton>
               <Router>
-                <Switch>
+              <AnimatePresence>
+              <Switch>
+                  {/* Authentication Routes */}
                   <Route path="/signup" component={Signup}></Route>
                   <Route path="/login" component={Login}></Route>
                   <Route
                     path="/reset-password"
                     component={ResetPassword}
                   ></Route>
-                  <ProtectedRoute exact path="/" component={Dashboard}></ProtectedRoute>
-                  <ProtectedRoute exact path="/initialize" component={Initialize}></ProtectedRoute>
-
+                  {/* Protected Routes */}
+                  <ProtectedRoute
+                    exact
+                    path="/"
+                    component={Dashboard}
+                  ></ProtectedRoute>
                 </Switch>
+                </AnimatePresence>
               </Router>
             </Styled.WindowContainer>
           </AuthProvider>

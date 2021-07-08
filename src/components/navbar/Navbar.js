@@ -9,10 +9,6 @@ const Navbar = () => {
 
   const { theme, toggleTheme } = useContext(ThemeContext)
 
-
-
-
-
   return (
     <Styled.NavbarContainer>
       <Styled.LeftContainer>

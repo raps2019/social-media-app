@@ -1,17 +1,64 @@
-import React from 'react';
+import React, { useState } from 'react';
 import * as Styled from './Authentication.styles';
+import { useAuth } from '../../global/AuthContext';
+import { formContainerVariants, formChildVariants } from './formVariants';
 
 const SignupForm = (props) => {
-  const { handleChange, inputValues, loading, errorMessage, handleSubmit } =
-    props;
+  const { mode, setMode } = props;
+
+  const [inputValues, setInputValues] = useState({
+    email: '',
+    password: '',
+    confirmPassword: '',
+  });
+
+  const [errorMessage, setErrorMessage] = useState('');
+  const [loading, setLoading] = useState(false);
+  const { signup } = useAuth();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (inputValues.password !== inputValues.confirmPassword) {
+      return setErrorMessage('Passwords do not match');
+    }
+
+    try {
+      setErrorMessage('');
+      setLoading(true);
+      await signup(inputValues.email, inputValues.password);
+      setLoading(false);
+      setMode('enterUsernameForm');
+    } catch (error) {
+      setErrorMessage(error.message);
+      setLoading(false);
+    }
+  };
+
+  const handleChange = (e) => {
+    const value = e.target.value;
+
+    setInputValues({
+      ...inputValues,
+      [e.target.name]: value,
+    });
+  };
+
 
   return (
-    <Styled.Form formType={'signup'} onSubmit={handleSubmit} disabled={loading}>
-      <Styled.Heading>FamGram</Styled.Heading>
-      <Styled.FieldContainer>
+    <Styled.Form
+      accentColor={'blue'}
+      onSubmit={handleSubmit}
+      disabled={loading}
+      variants={formContainerVariants}
+      initial="hidden"
+      animate="visible"
+    >
+      <Styled.Heading>ProjectOne</Styled.Heading>
+      <Styled.FieldContainer variants={formChildVariants}>
         <Styled.Input
           type="email"
-          formType={'signup'}
+          accentColor={'blue'}
           placeholder=" "
           name="email"
           value={inputValues.email}
@@ -20,10 +67,10 @@ const SignupForm = (props) => {
         ></Styled.Input>
         <Styled.Label>Email</Styled.Label>
       </Styled.FieldContainer>
-      <Styled.FieldContainer>
+      <Styled.FieldContainer variants={formChildVariants}>
         <Styled.Input
           type="password"
-          formType={'signup'}
+          accentColor={'blue'}
           placeholder=" "
           name="password"
           value={inputValues.password}
@@ -32,10 +79,10 @@ const SignupForm = (props) => {
         ></Styled.Input>
         <Styled.Label>Password</Styled.Label>
       </Styled.FieldContainer>
-      <Styled.FieldContainer>
+      <Styled.FieldContainer variants={formChildVariants}>
         <Styled.Input
           type="password"
-          formType={'signup'}
+          accentColor={'blue'}
           placeholder=" "
           name="confirmPassword"
           value={inputValues.confirmPassword}
@@ -44,13 +91,22 @@ const SignupForm = (props) => {
         ></Styled.Input>
         <Styled.Label>Confirm Password</Styled.Label>
       </Styled.FieldContainer>
-      <Styled.Button type="submit" formType={'signup'}>
+      <Styled.Button
+        type="submit"
+        accentColor={'blue'}
+        variants={formChildVariants}
+      >
         SIGN UP
       </Styled.Button>
-      <Styled.Text>
-        Have an account? <Styled.RouteLink to="/login">Login</Styled.RouteLink>
+      <Styled.Text variants={formChildVariants}>
+        Have an account?{' '}
+        <Styled.RouteLink to="/login" variants={formChildVariants}>
+          Login
+        </Styled.RouteLink>
       </Styled.Text>
-      {errorMessage ? <Styled.ErrorMessage>{errorMessage}</Styled.ErrorMessage> : null}
+      {errorMessage ? (
+        <Styled.ErrorMessage variants={formChildVariants}>{errorMessage}</Styled.ErrorMessage>
+      ) : null}
     </Styled.Form>
   );
 };

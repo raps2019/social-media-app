@@ -15,20 +15,4 @@ export const WindowContainer = styled.div`
   width : 100vw;
 `
 
-export const GlobalButton = styled.button`
-text-decoration: none;
-background: #ffffff;
-padding: 5px 20px;
-border: 4px solid #494949;
-border-radius: 10px;
-box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);transition: all 0.4s ease;
-font-size: 14px;
-cursor: pointer;
-
-&:hover {
-	transition: all 0.4s ease;
-}
-`
-
-
 export default GlobalStyle;
