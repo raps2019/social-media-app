@@ -33,7 +33,7 @@ export const GlobalForm = styled(motion.form)`
 `;
 
 export const GlobalFormHeading = styled(motion.div)`
-  font-size: 40px;
+  font-size: 3em;
   font-family: 'Pacifico', cursive;
   `;
 
@@ -70,7 +70,7 @@ export const GlobalFormInput = styled.input`
   &:focus + label,
   &:not(:placeholder-shown) + label {
     transform: translateY(-15px);
-    font-size: 12px;
+    font-size: 1em;
     font-weight: 700;
   }
 `;
@@ -86,12 +86,12 @@ export const GlobalFormLabel = styled.label`
 `;
 
 export const GlobalFormText = styled(motion.p)`
-  font-size: 14px;
+  font-size: 0.8em;
   padding: 10px 0;
 `;
 
 export const GlobalFormSmallText = styled(motion.p)`
-  font-size: 12px;
+  font-size: 0.7em;
   padding: 10px 0;
 `;
 
@@ -102,7 +102,7 @@ export const GlobalFormRouteLink = styled(Link)`
 `;
 
 export const GlobalFormMessage = styled(motion.div)`
-  font-size: 12px;
+  font-size: 1em;
   padding: 10px 0;
   max-width: 100%;
   text-align: center;

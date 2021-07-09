@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import * as Styled from './Authentication.styles';
 import { useAuth } from '../../global/AuthContext';
-import { formContainerVariants, formChildVariants } from './formVariants';
+import { formContainerVariants, formChildVariants } from './variants';
 
 const SignupForm = (props) => {
   const { mode, setMode } = props;

@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route, useLocation } from 'react-router-dom';
 import * as Styled from './global/styles/GlobalStyle';
 import GlobalStyle from './global/styles/GlobalStyle';
 import { AuthProvider } from './global/AuthContext';
@@ -14,6 +14,8 @@ import ToggleThemeButton from './components//utilities/ToggleThemeButton';
 import { AnimatePresence } from 'framer-motion';
 
 const App = () => {
+  const location = useLocation();
+
   return (
     <>
       <ThemeStore>
@@ -22,25 +24,23 @@ const App = () => {
           <AuthProvider>
             <Styled.WindowContainer>
               <ToggleThemeButton></ToggleThemeButton>
-              <Router>
-              <AnimatePresence>
-              <Switch>
-                  {/* Authentication Routes */}
-                  <Route path="/signup" component={Signup}></Route>
-                  <Route path="/login" component={Login}></Route>
-                  <Route
-                    path="/reset-password"
-                    component={ResetPassword}
-                  ></Route>
-                  {/* Protected Routes */}
-                  <ProtectedRoute
-                    exact
-                    path="/"
-                    component={Dashboard}
-                  ></ProtectedRoute>
-                </Switch>
+                <AnimatePresence exitBeforeEnter>
+                  <Switch location={location} key={location.key}>
+                    {/* Authentication Routes */}
+                    <Route path="/signup" component={Signup}></Route>
+                    <Route path="/login" component={Login}></Route>
+                    <Route
+                      path="/reset-password"
+                      component={ResetPassword}
+                    ></Route>
+                    {/* Protected Routes */}
+                    <ProtectedRoute
+                      exact
+                      path="/"
+                      component={Dashboard}
+                    ></ProtectedRoute>
+                  </Switch>
                 </AnimatePresence>
-              </Router>
             </Styled.WindowContainer>
           </AuthProvider>
         </Theme>

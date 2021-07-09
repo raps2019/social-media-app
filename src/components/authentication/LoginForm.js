@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import * as Styled from './Authentication.styles';
 import { useAuth } from '../../global/AuthContext';
 import { useHistory } from 'react-router-dom';
-import { formContainerVariants, formChildVariants } from './formVariants';
+import { formContainerVariants, formChildVariants } from './variants';
 
 const LoginForm = () => {
   const [email, setEmail] = useState('');

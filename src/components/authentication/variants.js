@@ -29,4 +29,26 @@ export const formChildVariants = {
       damping: 18,
     },
   },
+  hover: {
+    scale:1.1,
+    transition: {
+      // duration: 0.3,
+      yoyo: Infinity,
+    }
+  }
+};
+
+export const pageContainerVariants = {
+  hidden: {
+    opacity: 0,
+  },
+  visible: {
+    opacity: 1,
+    transition: { duration: 0.25 },
+  },
+  exit: {
+    x: '100vw',
+    transition: { ease: 'easeInOut', duration:0.25 },
+    opacity: 0,
+  },
 };
